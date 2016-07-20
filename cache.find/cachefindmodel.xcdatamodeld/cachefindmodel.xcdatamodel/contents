@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C81f" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Cache" representedClassName="Cache" syncable="YES">
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="county" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dataCriacao" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="descricao" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="difficulty" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="oxcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="terrain" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="belongsToDesafios" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Desafio" inverseName="cache" inverseEntity="Desafio" syncable="YES"/>
+        <relationship name="belongsToJogo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Jogo" inverseName="hasCache" inverseEntity="Jogo" syncable="YES"/>
+    </entity>
+    <entity name="Desafio" representedClassName="Desafio" parentEntity="Mensagem" syncable="YES">
+        <relationship name="cache" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Cache" inverseName="belongsToDesafios" inverseEntity="Cache" syncable="YES"/>
+        <relationship name="hasJogadores" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Jogador" inverseName="hasDesafios" inverseEntity="Jogador" syncable="YES"/>
+        <relationship name="hasJogos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Jogo" inverseName="hasDesafios" inverseEntity="Jogo" syncable="YES"/>
+        <relationship name="hasNivelDificuldade" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dificuldade" inverseName="belongsToDesafio" inverseEntity="Dificuldade" syncable="YES"/>
+    </entity>
+    <entity name="Dificuldade" representedClassName="Dificuldade" syncable="YES">
+        <attribute name="nivelDificuldade" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="belongsToDesafio" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Desafio" inverseName="hasNivelDificuldade" inverseEntity="Desafio" syncable="YES"/>
+    </entity>
+    <entity name="EstadoJogo" representedClassName="EstadoJogo" syncable="YES">
+        <attribute name="estado" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="belongsToJogo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Jogo" inverseName="hasEstado" inverseEntity="Jogo" syncable="YES"/>
+    </entity>
+    <entity name="Jogador" representedClassName="Jogador" syncable="YES">
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nome" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="hasDesafios" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Desafio" inverseName="hasJogadores" inverseEntity="Desafio" syncable="YES"/>
+        <relationship name="hasJogos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Jogo" inverseName="hasJogadores" inverseEntity="Jogo" syncable="YES"/>
+        <relationship name="hasMensagensEnviadas" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mensagem" inverseName="destino" inverseEntity="Mensagem" syncable="YES"/>
+        <relationship name="hasMensagensRecebidas" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Mensagem" inverseName="origem" inverseEntity="Mensagem" syncable="YES"/>
+    </entity>
+    <entity name="Jogo" representedClassName="Jogo" syncable="YES">
+        <attribute name="avaliacao" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dataFim" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dataInicio" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="duracao" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
+        <relationship name="hasCache" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Cache" inverseName="belongsToJogo" inverseEntity="Cache" syncable="YES"/>
+        <relationship name="hasDesafios" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Desafio" inverseName="hasJogos" inverseEntity="Desafio" syncable="YES"/>
+        <relationship name="hasEstado" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EstadoJogo" inverseName="belongsToJogo" inverseEntity="EstadoJogo" syncable="YES"/>
+        <relationship name="hasJogadores" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Jogador" inverseName="hasJogos" inverseEntity="Jogador" syncable="YES"/>
+    </entity>
+    <entity name="Mensagem" representedClassName="Mensagem" syncable="YES">
+        <attribute name="assunto" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="conteudo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dataEnvio" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dataRececao" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="destino" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Jogador" inverseName="hasMensagensEnviadas" inverseEntity="Jogador" syncable="YES"/>
+        <relationship name="origem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Jogador" inverseName="hasMensagensRecebidas" inverseEntity="Jogador" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Cache" positionX="-18" positionY="90" width="128" height="270"/>
+        <element name="Desafio" positionX="-45" positionY="63" width="128" height="103"/>
+        <element name="Dificuldade" positionX="-45" positionY="90" width="128" height="28"/>
+        <element name="EstadoJogo" positionX="-36" positionY="99" width="128" height="28"/>
+        <element name="Jogador" positionX="-63" positionY="-18" width="128" height="133"/>
+        <element name="Jogo" positionX="-36" positionY="72" width="128" height="163"/>
+        <element name="Mensagem" positionX="-54" positionY="9" width="128" height="133"/>
+    </elements>
+</model>
